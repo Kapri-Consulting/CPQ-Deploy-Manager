@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # cpq-deployment-manager README
 
 This is the README for your extension "cpq-deployment-manager". After writing up a brief description, we recommend including the following sections.
@@ -63,3 +64,7 @@ Added features X, Y, and Z.
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+=======
+# CPQ-Deploy-Manager
+This repository holds the Visual Studio code plugin for deploying scripts to CPQ environment.
+>>>>>>> 004036bc7d28652c6dffb6b972b2bda2018c7d4b
