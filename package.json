@@ -40,7 +40,7 @@
 				},
 				"customAction.url": {
 					"type":"string",
-					"description": "Holds the global script web service relative path",
+					"description": "Holds the custom action web service relative path",
 					"default": "/api/script/v1/CustomActions"
 				},
 				"cpq.username": {
