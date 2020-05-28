@@ -19,7 +19,45 @@
 				"command": "cpq-deployment-manager.deploy",
 				"title": "CPQ Deployment Manager"
 			}
-		]
+		],
+		"configuration":{
+			"title": "CPQDeploymentManager",
+			"properties": {
+				"cpq.url": 
+				{
+					"type": "string",
+					"description": "Holds the CPQ evnironment base URL."
+				},
+				"token.url": {
+					"type": "string",
+					"description": "Holds the token creation web service relative path.",
+					"default": "/basic/api/token"
+				},
+				"globalScript.url": {
+					"type":"string",
+					"description": "Holds the global script web service relative path",
+					"default": "/api/script/v1/GlobalScripts"
+				},
+				"customAction.url": {
+					"type":"string",
+					"description": "Holds the global script web service relative path",
+					"default": "/api/script/v1/CustomActions"
+				},
+				"cpq.username": {
+					"type": "string",
+					"description": "Holds username."
+				},
+				"cpq.password": {
+					"type": "string",
+					"description": "Holds password.",
+					"format": "password"
+				},
+				"cpq.domain": {
+					"type": "string",
+					"description": "Holds domain"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
