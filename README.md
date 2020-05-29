@@ -23,6 +23,11 @@ This extension contributes the following settings:
 * `cpq.password`: Holds CPQ environment password.
 * `cpq.domain`: Holds CPQ environment domain.
 
+## Prerequisites for plugin:
+
+- install node.js - https://nodejs.org/en/
+- after project clone, run npm install in terminal
+
 ## Known Issues
 
 N/A
