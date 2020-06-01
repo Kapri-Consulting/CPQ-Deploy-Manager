@@ -6,6 +6,14 @@ This is the README for your extension "cpq-deployment-manager". After writing up
 
 - Maintaining and deploying CPQ Iron Python scripts and Responsive Design Templates.
 
+## Implemented
+
+- Documentation
+- Repository
+- Authorization
+- Push existing script to CPQ (Global scripts and Custom Actions)
+- User Settings
+
 ## Requirements
 
 - Ability to create, edit and delete CPQ Iron Python scripts
