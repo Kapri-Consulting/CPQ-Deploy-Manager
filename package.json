@@ -20,7 +20,7 @@
 				"title": "CPQ Deployment Manager"
 			},
 			{
-				"command": "cpq-deployment-manager/write",
+				"command": "cpq-deployment-manager.write",
 				"title": "CPQ Deployment Manager - read"
 			}
 		],

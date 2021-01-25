@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
-	let write = vscode.commands.registerCommand('cpq-deployment-manager/write', () => {
+	let write = vscode.commands.registerCommand('cpq-deployment-manager.write', () => {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();
 		cpq_service.postScript();
@@ -32,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
-	context.subscriptions.push(write);
+	//context.subscriptions.push(write);
 
 }
 
