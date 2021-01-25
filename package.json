@@ -18,15 +18,19 @@
 			{
 				"command": "cpq-deployment-manager.deploy",
 				"title": "CPQ Deployment Manager"
+			},
+			{
+				"command": "cpq-deployment-manager/write",
+				"title": "CPQ Deployment Manager - read"
 			}
 		],
-		"configuration":{
+		"configuration": {
 			"title": "CPQDeploymentManager",
 			"properties": {
-				"cpq.url": 
-				{
+				"cpq.url": {
 					"type": "string",
-					"description": "Holds the CPQ evnironment base URL."
+					"description": "Holds the CPQ evnironment base URL.",
+					"default":"https://sandbox.webcomcpq.com"
 				},
 				"token.url": {
 					"type": "string",
@@ -34,27 +38,30 @@
 					"default": "/basic/api/token"
 				},
 				"globalScript.url": {
-					"type":"string",
+					"type": "string",
 					"description": "Holds the global script web service relative path",
 					"default": "/api/script/v1/GlobalScripts"
 				},
 				"customAction.url": {
-					"type":"string",
+					"type": "string",
 					"description": "Holds the custom action web service relative path",
 					"default": "/api/script/v1/CustomActions"
 				},
 				"cpq.username": {
 					"type": "string",
-					"description": "Holds username."
+					"description": "Holds username.",
+					"default":"t_smili"
 				},
 				"cpq.password": {
 					"type": "string",
 					"description": "Holds password.",
-					"format": "password"
+					"format": "password",
+					"default":"Apriori!123"
 				},
 				"cpq.domain": {
 					"type": "string",
-					"description": "Holds domain"
+					"description": "Holds domain",
+					"default":"autodeskinc_tst"
 				}
 			}
 		}

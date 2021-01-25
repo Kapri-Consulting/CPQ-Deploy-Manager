@@ -1,7 +1,10 @@
+import { posix } from 'path';
+import { TextEncoder } from 'util';
 import * as vscode from 'vscode';
 
 export class CpqService {
     private baseUrl: string = "";
+    
 
     /**
      * Initializes CpqService object
@@ -58,45 +61,43 @@ export class CpqService {
                 console.log(error.message);
                 throw error;
             }
-            
-            if (currentFolderName === "GlobalScripts") {
+            scriptUrl = vscode.workspace.getConfiguration().get("globalScript.url") || '';
+            /*if (currentFolderName === "GlobalScripts") {
                 scriptUrl = vscode.workspace.getConfiguration().get("globalScript.url") || '';
             }else if (currentFolderName === "CustomActions") {
                 scriptUrl = vscode.workspace.getConfiguration().get("customAction.url") || '';
-            }
+            }*/
 
             let jsonResp = JSON.parse(data);
             let request = require('request');
             var options = {
-                'method': 'POST',
+                'method': 'Get',
                 'url': this.baseUrl + scriptUrl,
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "scriptDefinition": {
-                        "id": 0,
-                        "name": "TestRefactor2",
-                        "description": "",
-                        "modifiedBy": "srasevic",
-                        "active": true,
-                        "modifiedOn": "",
-                        "startDate": "",
-                        "endDate": "",
-                        "script": "#comment",
-                        "isModule": true
-                    },
-                    "forceProxyGeneration": false,
-                    "events": []
-                })
-            };
+                }
+                    };
             request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
                 if (error) {
                     throw new Error(error);
                 }
                 vscode.window.showInformationMessage(response.statuscode);
                 console.log(response.body);
+                var scripts = JSON.parse(response.body);
+                scripts.pagedRecords.forEach(async function (value: any) {
+                    
+                    
+                    console.log(value);
+                        if (!vscode.workspace.workspaceFolders) {
+                            return vscode.window.showInformationMessage('No folder or workspace opened');
+                        }
+                        const writeStr = "''' \nid:" + JSON.stringify(value.scriptDefinition.id) + "'''" + '\n' + value.scriptDefinition.script;
+                        const writeData = Buffer.from(writeStr, 'utf8');
+                        const folderUri = vscode.workspace.workspaceFolders[0].uri;
+                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/GlobalScripts", value.scriptDefinition.name + "_" + value.scriptDefinition.id + ".py") });
+                        await vscode.workspace.fs.writeFile(fileUri, writeData);
+                });
             });
         });
     }
