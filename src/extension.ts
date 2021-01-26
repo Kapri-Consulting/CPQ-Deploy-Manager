@@ -23,6 +23,30 @@ export function activate(context: vscode.ExtensionContext) {
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
 	});
 
+	vscode.commands.registerCommand('cpq-deployment-manager.pushselection', () => {
+		// The code you place here will be executed every time your command is executed
+		let cpq_service: CpqService = new CpqService();
+		cpq_service.postScript();
+		// Display a message box to the user
+		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
+	});
+
+	vscode.commands.registerCommand('cpq-deployment-manager.pushall', () => {
+		// The code you place here will be executed every time your command is executed
+		let cpq_service: CpqService = new CpqService();
+		cpq_service.postScript();
+		// Display a message box to the user
+		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
+	});
+
+	vscode.commands.registerCommand('cpq-deployment-manager.create', () => {
+		// The code you place here will be executed every time your command is executed
+		let cpq_service: CpqService = new CpqService();
+		cpq_service.postScript();
+		// Display a message box to the user
+		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
+	});
+
 	let disposable = vscode.commands.registerCommand('cpq-deployment-manager.deploy', () => {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();

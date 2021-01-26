@@ -17,11 +17,23 @@
 		"commands": [
 			{
 				"command": "cpq-deployment-manager.deploy",
-				"title": "CPQ Deployment Manager"
+				"title": "CPQ DM - init project"
 			},
 			{
 				"command": "cpq-deployment-manager.write",
-				"title": "CPQ Deployment Manager - read"
+				"title": "CPQ DM - pull changes from CPQ"
+			},
+			{
+				"command": "cpq-deployment-manager.pushselection",
+				"title": "CPQ DM - push selection to CPQ"
+			},
+			{
+				"command": "cpq-deployment-manager.pushall",
+				"title": "CPQ DM - push all changes to CPQ"
+			},
+			{
+				"command": "cpq-deployment-manager.create",
+				"title": "CPQ DM - create object"
 			}
 		],
 		"configuration": {
