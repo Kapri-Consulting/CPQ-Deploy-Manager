@@ -42,7 +42,7 @@
 				"cpq.url": {
 					"type": "string",
 					"description": "Holds the CPQ evnironment base URL.",
-					"default":"https://sandbox.webcomcpq.com"
+					"default": "https://sandbox.webcomcpq.com"
 				},
 				"token.url": {
 					"type": "string",
@@ -62,18 +62,18 @@
 				"cpq.username": {
 					"type": "string",
 					"description": "Holds username.",
-					"default":"t_smili"
+					"default": "t_smili"
 				},
 				"cpq.password": {
 					"type": "string",
 					"description": "Holds password.",
 					"format": "password",
-					"default":"Apriori!123"
+					"default": "Apriori!123"
 				},
 				"cpq.domain": {
 					"type": "string",
 					"description": "Holds domain",
-					"default":"autodeskinc_tst"
+					"default": "autodeskinc_dev"
 				}
 			}
 		}
