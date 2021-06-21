@@ -10,7 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:cpq-deployment-manager.deploy"
+		"onCommand:cpq-deployment-manager.deploy",
+		"onCommand:cpq-deployment-manager.write",
+		"onCommand:cpq-deployment-manager.pushselection",
+		"onCommand:cpq-deployment-manager.debug"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -32,8 +35,8 @@
 				"title": "CPQ DM - push all changes to CPQ"
 			},
 			{
-				"command": "cpq-deployment-manager.create",
-				"title": "CPQ DM - create object"
+				"command": "cpq-deployment-manager.debug",
+				"title": "CPQ DM - run Quote script"
 			}
 		],
 		"configuration": {
@@ -49,10 +52,20 @@
 					"description": "Holds the token creation web service relative path.",
 					"default": "/basic/api/token"
 				},
+				"login.url": {
+					"type": "string",
+					"description": "Holds the token creation web service relative path.",
+					"default": "/api/rd/v1/Core/Login?"
+				},
 				"globalScript.url": {
 					"type": "string",
 					"description": "Holds the global script web service relative path",
 					"default": "/api/script/v1/GlobalScripts"
+				},
+				"customResponsiveTemplates.url": {
+					"type": "string",
+					"description": "Holds the custom action web service relative path",
+					"default": "/api/responsiveTemplate/v1/customResponsiveTemplates"
 				},
 				"customAction.url": {
 					"type": "string",
@@ -73,7 +86,23 @@
 				"cpq.domain": {
 					"type": "string",
 					"description": "Holds domain",
-					"default":"autodeskinc_tst"
+					"default":"autodeskinc_dev"
+				},
+				"quoteNumber": {
+					"type": "string",
+					"description": "Holds Quote Number",
+					"default":"01230022"
+				}
+				,
+				"quoteEdit.url": {
+					"type": "string",
+					"description": "Edit Quote Number",
+					"default":"/cart/edit?cartCompositeNumber="
+				},
+				"scriptDebugger.url": {
+					"type": "string",
+					"description": "Debug script",
+					"default":"/api/rd/v1/ScriptDebugger/RunScript"
 				}
 			}
 		}

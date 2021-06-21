@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let write = vscode.commands.registerCommand('cpq-deployment-manager.write', () => {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();
-		cpq_service.postScript();
+		cpq_service.putScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
 	});
@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('cpq-deployment-manager.pushselection', () => {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();
-		cpq_service.postScript();
+		cpq_service.putScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
 	});
@@ -47,6 +47,14 @@ export function activate(context: vscode.ExtensionContext) {
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
 	});
 
+	vscode.commands.registerCommand('cpq-deployment-manager.debug', () => {
+		// The code you place here will be executed every time your command is executed
+		let cpq_service: CpqService = new CpqService();
+		cpq_service.executeScript();
+		// Display a message box to the user
+		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
+	});
+
 	let disposable = vscode.commands.registerCommand('cpq-deployment-manager.deploy', () => {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();
@@ -56,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
-	//context.subscriptions.push(write);
+	context.subscriptions.push(write);
 
 }
 
