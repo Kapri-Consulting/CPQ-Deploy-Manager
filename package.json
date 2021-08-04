@@ -3,6 +3,7 @@
 	"displayName": "Cpq Deployment Manager",
 	"description": "Extension is used for deploying Iron Python Scripts and Responsive templates to CPQ environment.",
 	"version": "0.0.1",
+	"publisher": "KapriConsulting",
 	"engines": {
 		"vscode": "^1.45.0"
 	},
@@ -20,7 +21,7 @@
 		"commands": [
 			{
 				"command": "cpq-deployment-manager.deploy",
-				"title": "CPQ DM - init project"
+				"title": "CPQ init project"
 			},
 			{
 				"command": "cpq-deployment-manager.write",
@@ -39,13 +40,20 @@
 				"title": "CPQ DM - run Quote script"
 			}
 		],
+		"keybindings":[
+			{
+				"command": "cpq-deployment-manager.deploy",
+				"key": "ctrl+alt+i",
+				"mac": "shift+cmd+i"
+			}
+		],
 		"configuration": {
 			"title": "CPQDeploymentManager",
 			"properties": {
 				"cpq.url": {
 					"type": "string",
 					"description": "Holds the CPQ evnironment base URL.",
-					"default": "https://sandbox.webcomcpq.com"
+					"default": "https://eusb.webcomcpq.com"
 				},
 				"token.url": {
 					"type": "string",
@@ -75,18 +83,18 @@
 				"cpq.username": {
 					"type": "string",
 					"description": "Holds username.",
-					"default": "t_smili"
+					"default": "mstefanovic@kapriteam.com"
 				},
 				"cpq.password": {
 					"type": "string",
 					"description": "Holds password.",
 					"format": "password",
-					"default": "Apriori!123"
+					"default": "Dangerz0ne"
 				},
 				"cpq.domain": {
 					"type": "string",
 					"description": "Holds domain",
-					"default":"autodeskinc_dev"
+					"default":"adbsafegatebelgium_tst"
 				},
 				"quoteNumber": {
 					"type": "string",

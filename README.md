@@ -1,7 +1,3 @@
-# cpq-deployment-manager README
-
-This is the README for your extension "cpq-deployment-manager". After writing up a brief description, we recommend including the following sections.
-
 ## Features
 
 - Maintaining and deploying CPQ Iron Python scripts and Responsive Design Templates.
@@ -46,30 +42,4 @@ N/A
 
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** 
-Here are some useful editor keyboard shortcuts:
-* Invoke CPQ Deploy Manager (`Cmd+P` on macOS or `Ctrl+P` on Windows and Linux)
-
-### For more information
-
-* [Visual Studio Code's Key shortcuts](https://docs.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2019)
-
-**Enjoy!**
-# CPQ-Deploy-Manager
-This repository holds the Visual Studio code plugin for deploying scripts to CPQ environment.
-
-For all details about building visit: https://code.visualstudio.com/api
+Initial release of Publish Manager

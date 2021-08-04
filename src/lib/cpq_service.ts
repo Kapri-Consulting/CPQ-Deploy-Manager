@@ -140,7 +140,7 @@ export class CpqService {
 
                         };
                         request(options, function (error: string | undefined, response: { body: any; }) {
-                        if (error) throw new Error(error);
+                        if (error) {throw new Error(error);}
                         console.log(response.body);
                         var message = JSON.parse(response.body).Traces;
                         let orange = vscode.window.createOutputChannel("SAP CPQ");
@@ -169,7 +169,7 @@ export class CpqService {
             const fileUri = vscode.window.activeTextEditor.document.uri;
             
             const folderPath = posix.dirname(fileUri.path).split("/");
-            const folderName = folderPath[folderPath.length-1]
+            const folderName = folderPath[folderPath.length-1];
             const fileName = posix.basename(fileUri.path);            
 
             //based on folder build PUT url
@@ -264,7 +264,7 @@ export class CpqService {
             let request = require('request');
             var options = {
                 'method': 'Get',
-                'url': this.baseUrl + scriptUrl+'?$top=100',
+                'url': this.baseUrl + scriptUrl+'?$top=1000',
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
@@ -292,7 +292,7 @@ export class CpqService {
 
             options = {
                 'method': 'Get',
-                'url': this.baseUrl + customActionsUrl,
+                'url': this.baseUrl + customActionsUrl+'?$top=1000',
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
@@ -320,7 +320,7 @@ export class CpqService {
 
             options = {
                 'method': 'Get',
-                'url': this.baseUrl + customResponsiveTemplates+'?$top=100',
+                'url': this.baseUrl + customResponsiveTemplates+'?$top=1000',
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
