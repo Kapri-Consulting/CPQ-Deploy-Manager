@@ -2,7 +2,7 @@
 	"name": "cpq-deployment-manager",
 	"displayName": "Cpq Deployment Manager",
 	"description": "Extension is used for deploying Iron Python Scripts and Responsive templates to CPQ environment.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "KapriConsulting",
 	"engines": {
 		"vscode": "^1.45.0"
@@ -69,6 +69,11 @@
 					"type": "string",
 					"description": "Holds the global script web service relative path",
 					"default": "/api/script/v1/GlobalScripts"
+				},
+				"customCalculations.url": {
+					"type": "string",
+					"description": "Holds the custom calculations web service relative path",
+					"default": "/api/script/v1/CustomCalculations"
 				},
 				"customResponsiveTemplates.url": {
 					"type": "string",

@@ -16,6 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
+	vscode.window.showInformationMessage('Starting CPQ Deploy Manager');
 	let write = vscode.commands.registerCommand('cpq-deployment-manager.write', () => {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();
@@ -60,6 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 		let cpq_service: CpqService = new CpqService();
 		cpq_service.postScript();
+		vscode.window.showInformationMessage('CPQ Project initialization - done');
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
 	});

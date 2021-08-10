@@ -236,6 +236,7 @@ export class CpqService {
             let scriptUrl: string = "";
             let customActionsUrl: string = "";
             let customResponsiveTemplates: string = "";
+            let customCalculationsUrl: string = "";
             
 
             if (vscode.workspace.workspaceFolders !== undefined) {
@@ -244,6 +245,7 @@ export class CpqService {
                 countAndTotalOfFilesInFolder(folderPath,"GlobalScripts");
                 countAndTotalOfFilesInFolder(folderPath,"CustomActions");
                 countAndTotalOfFilesInFolder(folderPath,"UI");
+                countAndTotalOfFilesInFolder(folderPath,"CustomCalculations");
                 currentFolderName = currentFolder?.name || '';
             }
             else{
@@ -254,6 +256,7 @@ export class CpqService {
             scriptUrl = vscode.workspace.getConfiguration().get("globalScript.url") || '';
             customActionsUrl = vscode.workspace.getConfiguration().get("customAction.url") || '';
             customResponsiveTemplates = vscode.workspace.getConfiguration().get("customResponsiveTemplates.url") || '';
+            customCalculationsUrl = vscode.workspace.getConfiguration().get("customCalculations.url") || '';
             /*if (currentFolderName === "GlobalScripts") {
                 scriptUrl = vscode.workspace.getConfiguration().get("globalScript.url") || '';
             }else if (currentFolderName === "CustomActions") {
@@ -264,7 +267,7 @@ export class CpqService {
             let request = require('request');
             var options = {
                 'method': 'Get',
-                'url': this.baseUrl + scriptUrl+'?$top=1000',
+                'url': this.baseUrl + scriptUrl+'?$top=100',
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
@@ -292,7 +295,35 @@ export class CpqService {
 
             options = {
                 'method': 'Get',
-                'url': this.baseUrl + customActionsUrl+'?$top=1000',
+                'url': this.baseUrl + customCalculationsUrl+'?$top=100',
+                'headers': {
+                    'Authorization': 'Bearer ' + jsonResp.access_token,
+                    'Content-Type': 'application/json'
+                }
+                    };
+            request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
+                if (error) {
+                    throw new Error(error);
+                }
+                vscode.window.showInformationMessage(response.statuscode);
+                var scripts = JSON.parse(response.body);
+                scripts.pagedRecords.forEach(async function (value: any) {
+                    
+                    
+                        if (!vscode.workspace.workspaceFolders) {
+                            return vscode.window.showInformationMessage('No folder or workspace opened');
+                        }
+                        const writeStr = value.calculationDefinition.script;
+                        const writeData = Buffer.from(writeStr, 'utf8');
+                        const folderUri = vscode.workspace.workspaceFolders[0].uri;
+                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/CustomCalculations", value.calculationDefinition.name + "_" + value.calculationDefinition.id + ".py") });
+                        await vscode.workspace.fs.writeFile(fileUri, writeData);
+                });
+            });
+
+            options = {
+                'method': 'Get',
+                'url': this.baseUrl + customActionsUrl+'?$top=100',
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
@@ -320,7 +351,7 @@ export class CpqService {
 
             options = {
                 'method': 'Get',
-                'url': this.baseUrl + customResponsiveTemplates+'?$top=1000',
+                'url': this.baseUrl + customResponsiveTemplates+'?$top=100',
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
