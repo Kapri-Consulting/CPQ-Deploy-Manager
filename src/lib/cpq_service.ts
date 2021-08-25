@@ -165,12 +165,18 @@ export class CpqService {
                 return vscode.window.showInformationMessage('Open a file first');
             }
             var scriptUrl = "";
+            const url = this.baseUrl;
     
             const fileUri = vscode.window.activeTextEditor.document.uri;
+            const fileContent = vscode.window.activeTextEditor.document.getText();
             
             const folderPath = posix.dirname(fileUri.path).split("/");
             const folderName = folderPath[folderPath.length-1];
-            const fileName = posix.basename(fileUri.path);            
+            const fileName = vscode.window.activeTextEditor.document.fileName;
+            const fileNameSplit= fileName.split("_");
+            var fileID = fileNameSplit[fileNameSplit.length-1];
+            fileID = fileID.split(".")[0];
+
 
             //based on folder build PUT url
             if(folderName === "UI"){
@@ -183,25 +189,64 @@ export class CpqService {
                 scriptUrl = vscode.workspace.getConfiguration().get("customAction.url") || '';
             }
             else{
-                scriptUrl = vscode.workspace.getConfiguration().get("customAction.url") || '';
+                scriptUrl = vscode.workspace.getConfiguration().get("customCalculations.url") || '';
             }
             
             let jsonResp = JSON.parse(data);
             let request = require('request');
             var options = {
-                'method': 'Put',
-                'url': this.baseUrl + scriptUrl,
+                'method': 'GET',
+                'url': this.baseUrl + scriptUrl+'/'+fileID,
                 'headers': {
                     'Authorization': 'Bearer ' + jsonResp.access_token,
                     'Content-Type': 'application/json'
                 }
             };
+            var scripts;
+            request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
+                if (error) {
+                    throw new Error(error);
+                }
+                vscode.window.showInformationMessage(response.statuscode);
+                scripts = JSON.parse(response.body);
+                if(folderName === "UI"){
+                    scriptUrl = vscode.workspace.getConfiguration().get("customResponsiveTemplates.url") || '';
+                }
+                else if(folderName === "GlobalScripts"){
+                    scripts.scriptDefinition.script = fileContent || '';
+                }
+                else if(folderName === "CustomActions"){
+                    scripts.actionDefinition.script = fileContent || '';
+                }
+                else{
+                    scripts.calculationDefinition.script = fileContent|| '';
+                }
+                
 
-            //get script/html ID
+                var optionsPut = {
+                    'method': 'PUT',
+                    'url':url + scriptUrl+'/'+fileID,
+                    'headers': {
+                        'Authorization': 'Bearer ' + jsonResp.access_token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(scripts)
+    
+                    };
+                    request(optionsPut, function (error: string | undefined, response: { body: any; }) {
+                    if (error) {throw new Error(error);}
+                    console.log(response.body);
+                    var message = JSON.parse(response.body).Traces;
+                    let orange = vscode.window.createOutputChannel("SAP CPQ");
+                    message.forEach((c: { Message: string; }) => {
+                        orange.appendLine(c.Message);
+                    });
+    
+                    orange.appendLine(JSON.parse(response.body));
+                    });
+            });
 
-            //prepare body
-
-            //execute
+            
 
         });
     }
@@ -285,7 +330,7 @@ export class CpqService {
                         if (!vscode.workspace.workspaceFolders) {
                             return vscode.window.showInformationMessage('No folder or workspace opened');
                         }
-                        const writeStr = "''' \nid:" + JSON.stringify(value.scriptDefinition.id) + "'''" + '\n' + value.scriptDefinition.script;
+                        const writeStr = value.scriptDefinition.script;
                         const writeData = Buffer.from(writeStr, 'utf8');
                         const folderUri = vscode.workspace.workspaceFolders[0].uri;
                         const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/GlobalScripts", value.scriptDefinition.name + "_" + value.scriptDefinition.id + ".py") });
@@ -341,7 +386,7 @@ export class CpqService {
                         if (!vscode.workspace.workspaceFolders) {
                             return vscode.window.showInformationMessage('No folder or workspace opened');
                         }
-                        const writeStr = "''' \nid:" + JSON.stringify(value.actionDefinition.id) + "'''" + '\n' + value.actionDefinition.script;
+                        const writeStr = value.actionDefinition.script;
                         const writeData = Buffer.from(writeStr, 'utf8');
                         const folderUri = vscode.workspace.workspaceFolders[0].uri;
                         const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/CustomActions", value.actionDefinition.name + "_" + value.actionDefinition.id + ".py") });
