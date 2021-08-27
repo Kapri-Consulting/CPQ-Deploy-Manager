@@ -87,6 +87,7 @@ export class CpqService {
                 var quoteNumber = vscode.workspace.getConfiguration().get("quoteNumber") || '';
                 var editQuoteUrl = vscode.workspace.getConfiguration().get("quoteEdit.url") || '';
                 var loginUrl = vscode.workspace.getConfiguration().get("login.url") || '';
+                var runScriptUrl = vscode.workspace.getConfiguration().get("scriptDebugger.url") || '';
 
                 let jsonResp = JSON.parse(data);
                 let request = require('request'); 
@@ -101,7 +102,7 @@ export class CpqService {
                 //quote edit
                 var options = {
                     'method': 'GET',
-                    'url': 'https://sandbox.webcomcpq.com/cart/edit?cartCompositeNumber=01230022',
+                    'url': this.baseUrl + editQuoteUrl + quoteNumber,
                     'headers': {
                         'X-CSRF-Token':jsonResp,
                         'Content-Type': 'application/json',
@@ -130,7 +131,7 @@ export class CpqService {
                         const s = vscode.window.activeTextEditor.document.getText();
                         var options = {
                         'method': 'POST',
-                        'url': 'https://sandbox.webcomcpq.com/api/rd/v1/ScriptDebugger/RunScript',
+                        'url': this.baseUrl + runScriptUrl,
                         'headers': {
                             'X-CSRF-Token': JSON.parse(data),
                             'Content-Type': 'application/json',
@@ -144,11 +145,17 @@ export class CpqService {
                         console.log(response.body);
                         var message = JSON.parse(response.body).Traces;
                         let orange = vscode.window.createOutputChannel("SAP CPQ");
+                        
                         message.forEach((c: { Message: string; }) => {
                             orange.appendLine(c.Message);
                         });
-
-                        orange.appendLine(JSON.parse(response.body));
+                        if (JSON.parse(response.body).Success == false){
+                            orange.appendLine(JSON.parse(response.body).ErrorMessage); 
+                        }
+                        //orange.appendLine(response.body);
+                        //vscode.window.activeTerminal?.sendText(response.body,true);
+                        //console.log(response.body);
+                        orange.show();
                         });
  
                 });
@@ -242,7 +249,9 @@ export class CpqService {
                         orange.appendLine(c.Message);
                     });
     
-                    orange.appendLine(JSON.parse(response.body));
+                    orange.append(response.body);
+                    orange.show();
+                    
                     });
             });
 

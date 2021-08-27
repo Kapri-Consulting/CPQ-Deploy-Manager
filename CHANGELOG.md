@@ -18,3 +18,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 0.1.0
 - Deploy script to CPQ implemented
 - Bug fixes
+
+## 0.1.1
+- Fixed Quote script debugger
