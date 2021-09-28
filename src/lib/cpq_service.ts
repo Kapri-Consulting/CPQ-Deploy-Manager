@@ -182,9 +182,11 @@ export class CpqService {
             const folderPath = posix.dirname(fileUri.path).split("/");
             const folderName = folderPath[folderPath.length-1];
             const fileName = vscode.window.activeTextEditor.document.fileName;
-            const fileNameSplit= fileName.split("_");
-            var fileID = fileNameSplit[fileNameSplit.length-1];
-            fileID = fileID.split(".")[0];
+            var fileNameSplit= fileName.split("/");
+            var fileNameTemp = fileNameSplit[fileNameSplit.length-1];
+            var file = fileNameTemp.split(".")[0];
+            var fileID = this.context.workspaceState.get(file);
+            //fileID = fileID.split(".")[0];
 
 
             //based on folder build PUT url
