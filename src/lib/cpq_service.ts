@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 
 export class CpqService {
     private baseUrl: string = "";
-    private context;
+    private context: any;
     
 
     /**

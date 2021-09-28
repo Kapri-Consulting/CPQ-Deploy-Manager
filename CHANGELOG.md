@@ -21,3 +21,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 0.1.1
 - Fixed Quote script debugger
+
+## 0.1.2
+- Script ids are stored into workspace context
