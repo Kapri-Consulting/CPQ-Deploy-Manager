@@ -4,13 +4,15 @@ import * as vscode from 'vscode';
 
 export class CpqService {
     private baseUrl: string = "";
+    private context;
     
 
     /**
      * Initializes CpqService object
      */
-    constructor() {
+    constructor(context: vscode.ExtensionContext) {
         this.baseUrl = vscode.workspace.getConfiguration().get("cpq.url") || '';
+        this.context = context;
     }
     
     /**
@@ -285,22 +287,29 @@ export class CpqService {
                 
             }
 
+            //let nme = this.context.workspaceState.get("ivan");
+
             vscode.window.showInformationMessage(data);
             let currentFolderName: string = "";
             let scriptUrl: string = "";
             let customActionsUrl: string = "";
             let customResponsiveTemplates: string = "";
             let customCalculationsUrl: string = "";
+            let configurationFile: Map<string, number> = new Map();
+            let configurationUri;
             
 
             if (vscode.workspace.workspaceFolders !== undefined) {
                 const folderPath = vscode.workspace.workspaceFolders[0].uri;
+                configurationUri = folderPath.with({ path: posix.join(folderPath.path + "/configuration.json") });
                 const currentFolder = vscode.workspace.getWorkspaceFolder(folderPath);
                 countAndTotalOfFilesInFolder(folderPath,"GlobalScripts");
                 countAndTotalOfFilesInFolder(folderPath,"CustomActions");
                 countAndTotalOfFilesInFolder(folderPath,"UI");
                 countAndTotalOfFilesInFolder(folderPath,"CustomCalculations");
                 currentFolderName = currentFolder?.name || '';
+                
+
             }
             else{
                 let error: Error = new Error("Please define folder structure");
@@ -311,6 +320,7 @@ export class CpqService {
             customActionsUrl = vscode.workspace.getConfiguration().get("customAction.url") || '';
             customResponsiveTemplates = vscode.workspace.getConfiguration().get("customResponsiveTemplates.url") || '';
             customCalculationsUrl = vscode.workspace.getConfiguration().get("customCalculations.url") || '';
+
             /*if (currentFolderName === "GlobalScripts") {
                 scriptUrl = vscode.workspace.getConfiguration().get("globalScript.url") || '';
             }else if (currentFolderName === "CustomActions") {
@@ -327,22 +337,26 @@ export class CpqService {
                     'Content-Type': 'application/json'
                 }
                     };
-            request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
+            request(options,  (error: string | undefined, response: { body: any, statuscode: any }) => {
                 if (error) {
                     throw new Error(error);
                 }
                 vscode.window.showInformationMessage(response.statuscode);
                 var scripts = JSON.parse(response.body);
-                scripts.pagedRecords.forEach(async function (value: any) {
+                scripts.pagedRecords.forEach(async  (value: any) => {
                     
                     
                         if (!vscode.workspace.workspaceFolders) {
                             return vscode.window.showInformationMessage('No folder or workspace opened');
                         }
+                        
                         const writeStr = value.scriptDefinition.script;
                         const writeData = Buffer.from(writeStr, 'utf8');
                         const folderUri = vscode.workspace.workspaceFolders[0].uri;
-                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/GlobalScripts", value.scriptDefinition.name + "_" + value.scriptDefinition.id + ".py") });
+                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/GlobalScripts", value.scriptDefinition.name + ".py") });
+                        //configurationFile.set(value.scriptDefinition.name, value.scriptDefinition.id);
+                        this.context.workspaceState.update(value.scriptDefinition.name,value.scriptDefinition.id);
+                        
                         await vscode.workspace.fs.writeFile(fileUri, writeData);
                 });
             });
@@ -355,13 +369,13 @@ export class CpqService {
                     'Content-Type': 'application/json'
                 }
                     };
-            request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
+            request(options,  (error: string | undefined, response: { body: any, statuscode: any }) => {
                 if (error) {
                     throw new Error(error);
                 }
                 vscode.window.showInformationMessage(response.statuscode);
                 var scripts = JSON.parse(response.body);
-                scripts.pagedRecords.forEach(async function (value: any) {
+                scripts.pagedRecords.forEach(async  (value: any) => {
                     
                     
                         if (!vscode.workspace.workspaceFolders) {
@@ -370,8 +384,9 @@ export class CpqService {
                         const writeStr = value.calculationDefinition.script;
                         const writeData = Buffer.from(writeStr, 'utf8');
                         const folderUri = vscode.workspace.workspaceFolders[0].uri;
-                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/CustomCalculations", value.calculationDefinition.name + "_" + value.calculationDefinition.id + ".py") });
+                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/CustomCalculations", value.calculationDefinition.name + ".py") });
                         await vscode.workspace.fs.writeFile(fileUri, writeData);
+                        this.context.workspaceState.update(value.calculationDefinition.name,value.calculationDefinition.id);
                 });
             });
 
@@ -383,13 +398,13 @@ export class CpqService {
                     'Content-Type': 'application/json'
                 }
                     };
-            request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
+            request(options,  (error: string | undefined, response: { body: any, statuscode: any }) => {
                 if (error) {
                     throw new Error(error);
                 }
                 vscode.window.showInformationMessage(response.statuscode);
                 var scripts = JSON.parse(response.body);
-                scripts.pagedRecords.forEach(async function (value: any) {
+                scripts.pagedRecords.forEach(async  (value: any) => {
                     
                     
                         if (!vscode.workspace.workspaceFolders) {
@@ -398,8 +413,10 @@ export class CpqService {
                         const writeStr = value.actionDefinition.script;
                         const writeData = Buffer.from(writeStr, 'utf8');
                         const folderUri = vscode.workspace.workspaceFolders[0].uri;
-                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/CustomActions", value.actionDefinition.name + "_" + value.actionDefinition.id + ".py") });
+                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/CustomActions", value.actionDefinition.name + ".py") });
                         await vscode.workspace.fs.writeFile(fileUri, writeData);
+                        this.context.workspaceState.update(value.actionDefinition.name,value.actionDefinition.id);
+
                 });
             });
 
@@ -411,13 +428,13 @@ export class CpqService {
                     'Content-Type': 'application/json'
                 }
                     };
-            request(options, function (error: string | undefined, response: { body: any, statuscode: any }) {
+            request(options,  (error: string | undefined, response: { body: any, statuscode: any }) => {
                 if (error) {
                     throw new Error(error);
                 }
                 vscode.window.showInformationMessage(response.statuscode);
                 var scripts = JSON.parse(response.body);
-                scripts.pagedRecords.forEach(async function (value: any) {
+                scripts.pagedRecords.forEach(async  (value: any) => {
                     
                     
                         if (!vscode.workspace.workspaceFolders) {
@@ -426,10 +443,18 @@ export class CpqService {
                         const writeStr = value.content;
                         const writeData = Buffer.from(writeStr, 'utf8');
                         const folderUri = vscode.workspace.workspaceFolders[0].uri;
-                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/UI", value.name + "_" + value.id + ".html") });
+                        const fileUri = folderUri.with({ path: posix.join(folderUri.path + "/UI", value.name +".html") });
                         await vscode.workspace.fs.writeFile(fileUri, writeData);
+                        this.context.workspaceState.update(value.name,value.id);
+
                 });
+
+                
             });
+            
+            vscode.workspace.fs.writeFile(configurationUri, Buffer.from(JSON.stringify(configurationFile), 'utf8'));
+
+            
         });
     }
 }

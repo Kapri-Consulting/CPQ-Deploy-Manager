@@ -12,17 +12,17 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-
+	let state = context.workspaceState;
 	console.log('Congratulations, your extension "cpq-deployment-manager" is now active!');
-	
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-
+	// context.workspaceState.update("ivan","smiljkovic");
+	
 	vscode.window.showInformationMessage('Starting CPQ Deploy Manager');
 	let write = vscode.commands.registerCommand('cpq-deployment-manager.write', () => {
 		// The code you place here will be executed every time your command is executed
-		let cpq_service: CpqService = new CpqService();
+		let cpq_service: CpqService = new CpqService(context);
 		cpq_service.putScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
@@ -30,7 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('cpq-deployment-manager.pushselection', () => {
 		// The code you place here will be executed every time your command is executed
-		let cpq_service: CpqService = new CpqService();
+		
+		let cpq_service: CpqService = new CpqService(context);
 		cpq_service.putScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
@@ -38,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('cpq-deployment-manager.pushall', () => {
 		// The code you place here will be executed every time your command is executed
-		let cpq_service: CpqService = new CpqService();
+		let cpq_service: CpqService = new CpqService(context);
 		cpq_service.postScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
@@ -46,7 +47,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('cpq-deployment-manager.create', () => {
 		// The code you place here will be executed every time your command is executed
-		let cpq_service: CpqService = new CpqService();
+		
+		let cpq_service: CpqService = new CpqService(context);
 		cpq_service.postScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
@@ -54,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('cpq-deployment-manager.debug', () => {
 		// The code you place here will be executed every time your command is executed
-		let cpq_service: CpqService = new CpqService();
+		let cpq_service: CpqService = new CpqService(context);
 		cpq_service.executeScript();
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World from Cpq Deployment Manager!');
@@ -62,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let disposable = vscode.commands.registerCommand('cpq-deployment-manager.deploy', () => {
 		// The code you place here will be executed every time your command is executed
-		let cpq_service: CpqService = new CpqService();
+		let cpq_service: CpqService = new CpqService(context);
 		cpq_service.postScript();
 		vscode.window.showInformationMessage('CPQ Project initialization - done');
 		// Display a message box to the user
